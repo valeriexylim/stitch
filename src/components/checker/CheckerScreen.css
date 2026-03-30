@@ -1,0 +1,226 @@
+/* ─── Layout ────────────────────────────────────────────────────────────────── */
+
+.checker-screen {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ─── Input area ─────────────────────────────────────────────────────────────── */
+
+.checker-input-area h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.checker-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.checker-input {
+  flex: 1;
+  font-size: 1.1rem;
+  font-family: monospace;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.checker-input:focus { border-color: #4361ee; }
+.checker-input.input-error { border-color: #f03e3e; }
+
+.btn-check {
+  padding: 8px 20px;
+  background: #4361ee;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-check:hover:not(:disabled) { background: #3451d1; }
+.btn-check:disabled { opacity: 0.4; cursor: default; }
+
+.checker-hint {
+  font-size: 0.8rem;
+  color: #adb5bd;
+  margin-top: 0.4rem;
+}
+
+.checker-hint code {
+  background: #f1f3f5;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+.checker-error {
+  color: #c92a2a;
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  font-family: monospace;
+}
+
+/* ─── Result area ────────────────────────────────────────────────────────────── */
+
+.checker-result {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.result-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.result-formula {
+  font-family: monospace;
+  font-size: 1.05rem;
+  color: #212529;
+}
+
+.result-vars {
+  font-size: 0.8rem;
+  color: #868e96;
+}
+
+.result-mode-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.badge-tt  { background: #e7f5ff; color: #1971c2; }
+.badge-sat { background: #fff3bf; color: #e67700; }
+
+.checker-warning {
+  background: #fff3bf;
+  border: 1px solid #ffd43b;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: #7c4d00;
+}
+
+.checker-info {
+  background: #f1f3f5;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* ─── Verdict badge ──────────────────────────────────────────────────────────── */
+
+.verdict-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.verdict-tautology    { background: #d3f9d8; color: #2b9348; }
+.verdict-contradiction { background: #ffe3e3; color: #c92a2a; }
+.verdict-contingent   { background: #e7f5ff; color: #1971c2; }
+
+/* ─── Truth table ────────────────────────────────────────────────────────────── */
+
+.truth-table-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.truth-table-scroll {
+  overflow-x: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+.truth-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.truth-table th {
+  background: #f8f9fa;
+  padding: 8px 16px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  font-family: monospace;
+}
+
+.truth-table td {
+  padding: 6px 16px;
+  border-bottom: 1px solid #f1f3f5;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.truth-table tr:last-child td { border-bottom: none; }
+
+.val-true  { color: #2b9348; }
+.val-false { color: #c92a2a; }
+
+.col-result {
+  border-left: 2px solid #dee2e6;
+  background: #fafafa;
+}
+
+/* ─── SAT result ─────────────────────────────────────────────────────────────── */
+
+.sat-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sat-assignment {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.sat-assignment-label {
+  color: #495057;
+  font-weight: 500;
+}
+
+.sat-assignment-vals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sat-lit {
+  font-family: monospace;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  background: #f1f3f5;
+  font-size: 0.9rem;
+}
+
+.sat-lit.val-true  { background: #d3f9d8; color: #2b9348; }
+.sat-lit.val-false { background: #ffe3e3; color: #c92a2a; }

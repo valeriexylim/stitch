@@ -1,0 +1,11 @@
+node_modules/
+dist/
+
+# Claude Code internals
+.claude/
+CLAUDE.md
+PLAN.md
+
+# Test files
+src/**/*.test.js
+src/test/

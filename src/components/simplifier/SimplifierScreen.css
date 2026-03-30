@@ -1,0 +1,260 @@
+/* ─── Layout ────────────────────────────────────────────────────────────────── */
+
+.simplifier-screen {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ─── Input area ─────────────────────────────────────────────────────────────── */
+
+.simp-input-area h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.simp-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.simp-input {
+  flex: 1;
+  font-size: 1.1rem;
+  font-family: monospace;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.simp-input:focus   { border-color: #4361ee; }
+.simp-input.input-error { border-color: #f03e3e; }
+
+.btn-simplify {
+  padding: 8px 20px;
+  background: #4361ee;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-simplify:hover:not(:disabled) { background: #3451d1; }
+.btn-simplify:disabled { opacity: 0.4; cursor: default; }
+
+.simp-error {
+  color: #c92a2a;
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  font-family: monospace;
+}
+
+/* ─── Options row ────────────────────────────────────────────────────────────── */
+
+.simp-options {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.simp-options-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #868e96;
+}
+
+.simp-radio, .simp-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.simp-checkbox.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ─── Navigation bar ─────────────────────────────────────────────────────────── */
+
+.simp-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.simp-nav-btn {
+  padding: 5px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.1s;
+}
+
+.simp-nav-btn:hover:not(:disabled) { background: #f1f3f5; }
+.simp-nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+.simp-nav-counter {
+  font-size: 0.9rem;
+  color: #495057;
+  padding: 0 0.5rem;
+  font-weight: 500;
+}
+
+.simp-showall {
+  margin-left: auto;
+  background: #f1f3f5;
+}
+
+/* ─── Step card ──────────────────────────────────────────────────────────────── */
+
+.simp-step-card {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.simp-step-rule {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.rule-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.rule-pattern {
+  font-size: 0.85rem;
+  font-family: monospace;
+  color: #868e96;
+  background: #f1f3f5;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.simp-step-changed {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.changed-label {
+  color: #868e96;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.changed-before {
+  font-family: monospace;
+  background: #ffe3e3;
+  color: #c92a2a;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.changed-arrow {
+  color: #adb5bd;
+  font-size: 1rem;
+}
+
+.changed-after {
+  font-family: monospace;
+  background: #d3f9d8;
+  color: #2b9348;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.simp-step-formula {
+  font-family: monospace;
+  font-size: 1.4rem;
+  color: #212529;
+  padding-top: 0.25rem;
+  border-top: 1px solid #f1f3f5;
+  word-break: break-all;
+}
+
+/* ─── All-steps list ─────────────────────────────────────────────────────────── */
+
+.simp-all-steps {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.simp-all-row {
+  display: grid;
+  grid-template-columns: 2rem 11rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 7px 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f3f5;
+  font-size: 0.88rem;
+  transition: background 0.1s;
+}
+
+.simp-all-row:last-child { border-bottom: none; }
+.simp-all-row:hover      { background: #f8f9fa; }
+.simp-all-row.current-row { background: #e7f5ff; }
+
+.all-row-num {
+  color: #adb5bd;
+  text-align: right;
+  font-size: 0.8rem;
+}
+
+.all-row-rule {
+  color: #495057;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.all-row-formula {
+  font-family: monospace;
+  color: #212529;
+}
+
+/* ─── Done indicator ─────────────────────────────────────────────────────────── */
+
+.simp-done {
+  background: #d3f9d8;
+  color: #2b9348;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
