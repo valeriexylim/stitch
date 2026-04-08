@@ -1,0 +1,79 @@
+.rules-ref {
+  margin-top: 1.5rem;
+}
+
+.rules-ref-toggle {
+  background: none;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.rules-ref-toggle:hover {
+  background: #f8f9fa;
+}
+
+.rules-ref-body {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.rules-ref-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #868e96;
+  margin-bottom: 0.4rem;
+}
+
+.rules-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.rules-ref-table th {
+  text-align: left;
+  font-weight: 600;
+  color: #6c757d;
+  border-bottom: 1px solid #dee2e6;
+  padding: 4px 10px 4px 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rules-ref-table td {
+  padding: 5px 10px 5px 0;
+  border-bottom: 1px solid #f1f3f5;
+  vertical-align: top;
+}
+
+.rules-ref-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ref-name {
+  color: #212529;
+  font-weight: 500;
+  white-space: nowrap;
+  width: 30%;
+}
+
+.ref-schema {
+  font-family: monospace;
+  color: #3a3a5c;
+  width: 40%;
+}
+
+.ref-cit {
+  color: #6c757d;
+  font-size: 0.78rem;
+  width: 30%;
+}

@@ -26,7 +26,7 @@ export const RULE_NAMES = [
   '∧I', '∧E₁', '∧E₂',
   '∨I₁', '∨I₂', '∨E',
   '¬I', '¬E',
-  '→I', '→E',
+  '→I', '→E', 'MT',
   '↔I', '↔E₁', '↔E₂',
   '⊥E',
   'Copy',
@@ -37,7 +37,7 @@ const CIT_COUNT = {
   '∧I': 2, '∧E₁': 1, '∧E₂': 1,
   '∨I₁': 1, '∨I₂': 1, '∨E': 3,
   '¬I': 1, '¬E': 2,
-  '→I': 1, '→E': 2,
+  '→I': 1, '→E': 2, 'MT': 2,
   '↔I': 2, '↔E₁': 2, '↔E₂': 2,
   '⊥E': 1, 'Copy': 1,
 }
@@ -281,7 +281,29 @@ function validateRule(lines, parsed, i, formula, cidxs, rule) {
       // Either fa = φ→ψ & fb = φ & formula = ψ, or swapped
       if (fa.type === 'Implies' && equals(fa.left, fb) && equals(fa.right, formula)) return ok()
       if (fb.type === 'Implies' && equals(fb.left, fa) && equals(fb.right, formula)) return ok()
-      return err('→E (modus ponens): one cited formula must be an implication whose antecedent is the other cited formula')
+      return err('Modus Ponens (→E): one cited formula must be an implication whose antecedent is the other cited formula')
+    }
+
+    case 'MT': {
+      // Modus Tollens: φ → ψ, ¬ψ ⊢ ¬φ
+      const [a, b] = [cidxs[0], cidxs[1]]
+      const e = accessErr(a) ?? accessErr(b)
+      if (e) return err(e)
+      const [fa, fb] = [cf(0), cf(1)]
+      if (!fa) return err(`Line ${a + 1} has no valid formula`)
+      if (!fb) return err(`Line ${b + 1} has no valid formula`)
+      if (formula.type !== 'Not') return err('Modus Tollens (MT): derived formula must be a negation')
+      // Find which cited formula is the implication
+      let impl, negConseq
+      if (fa.type === 'Implies') { impl = fa; negConseq = fb }
+      else if (fb.type === 'Implies') { impl = fb; negConseq = fa }
+      else return err('Modus Tollens (MT): one cited formula must be an implication')
+      if (negConseq.type !== 'Not') return err('Modus Tollens (MT): one cited formula must be the negation of the consequent')
+      if (!equals(negConseq.operand, impl.right))
+        return err('Modus Tollens (MT): the negated formula must match the consequent of the implication')
+      if (!equals(formula.operand, impl.left))
+        return err(`Modus Tollens (MT): expected ¬(${fmtStr(impl.left)}), got ${fmtStr(formula)}`)
+      return ok()
     }
 
     // ── Biconditional ─────────────────────────────────────────────────────────

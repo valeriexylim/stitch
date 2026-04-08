@@ -8,7 +8,7 @@ import { toString as fmtStr, toLatex } from '../../logic/serialize.js'
 
 const DEFAULT_ATOMS = ['P', 'Q', 'R', 'S']
 
-export default function BlockBuilder() {
+export default function BlockBuilder({ onSendTo }) {
   const [formula, setFormula] = useState(Hole())
   const [selectedPath, setSelectedPath] = useState(null)
   const [atoms, setAtoms] = useState(DEFAULT_ATOMS)
@@ -129,6 +129,23 @@ export default function BlockBuilder() {
               <span className="export-label">JSON AST</span>
               <button onClick={() => copyToClipboard(JSON.stringify(formula, null, 2), 'json')}>
                 {copied === 'json' ? 'Copied!' : 'Copy JSON'}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {isWff && onSendTo && (
+          <div className="send-to-panel">
+            <h4>Use this formula in</h4>
+            <div className="send-to-buttons">
+              <button className="btn-send-to" onClick={() => onSendTo('checker', formulaStr)}>
+                Truth Table / SAT →
+              </button>
+              <button className="btn-send-to" onClick={() => onSendTo('simplifier', formulaStr)}>
+                Simplification →
+              </button>
+              <button className="btn-send-to" onClick={() => onSendTo('proof', formulaStr)}>
+                Proof Checker →
               </button>
             </div>
           </div>

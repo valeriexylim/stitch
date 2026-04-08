@@ -28,7 +28,7 @@ function rule(name, pattern, match) {
 
 // 1. Biconditional elimination
 const bicondElim = rule(
-  'Biconditional elimination',
+  'Definition of biconditional',
   '(φ ↔ ψ) → (φ → ψ) ∧ (ψ → φ)',
   (n) => n.type === 'Iff'
     ? And(Implies(n.left, n.right), Implies(n.right, n.left))
@@ -37,21 +37,21 @@ const bicondElim = rule(
 
 // 2. Implication elimination
 const implElim = rule(
-  'Implication elimination',
+  'Definition of implication',
   '(φ → ψ) → ¬φ ∨ ψ',
   (n) => n.type === 'Implies' ? Or(Not(n.left), n.right) : null
 )
 
 // 3. Double negation
 const doubleNeg = rule(
-  'Double negation',
+  'Double negative law',
   '¬¬φ → φ',
   (n) => n.type === 'Not' && n.operand.type === 'Not' ? n.operand.operand : null
 )
 
 // 4a. De Morgan — ¬(φ ∧ ψ) → ¬φ ∨ ¬ψ
 const deMorganAnd = rule(
-  'De Morgan (∧)',
+  "De Morgan's law (∧)",
   '¬(φ ∧ ψ) → ¬φ ∨ ¬ψ',
   (n) => n.type === 'Not' && n.operand.type === 'And'
     ? Or(Not(n.operand.left), Not(n.operand.right))
@@ -60,7 +60,7 @@ const deMorganAnd = rule(
 
 // 4b. De Morgan — ¬(φ ∨ ψ) → ¬φ ∧ ¬ψ
 const deMorganOr = rule(
-  'De Morgan (∨)',
+  "De Morgan's law (∨)",
   '¬(φ ∨ ψ) → ¬φ ∧ ¬ψ',
   (n) => n.type === 'Not' && n.operand.type === 'Or'
     ? And(Not(n.operand.left), Not(n.operand.right))
@@ -69,33 +69,33 @@ const deMorganOr = rule(
 
 // Negation of constants
 const negTrue = rule(
-  'Negation of ⊤',
+  'Negation of t',
   '¬⊤ → ⊥',
   (n) => n.type === 'Not' && n.operand.type === 'True' ? False_() : null
 )
 
 const negFalse = rule(
-  'Negation of ⊥',
+  'Negation of c',
   '¬⊥ → ⊤',
   (n) => n.type === 'Not' && n.operand.type === 'False' ? True_() : null
 )
 
-// 6. Idempotence
+// 6. Idempotent laws
 const idempotenceAnd = rule(
-  'Idempotence (∧)',
+  'Idempotent law (∧)',
   'φ ∧ φ → φ',
   (n) => n.type === 'And' && equals(n.left, n.right) ? n.left : null
 )
 
 const idempotenceOr = rule(
-  'Idempotence (∨)',
+  'Idempotent law (∨)',
   'φ ∨ φ → φ',
   (n) => n.type === 'Or' && equals(n.left, n.right) ? n.left : null
 )
 
 // Complementation & tautology (produce constants — run before identity/annihilation)
 const complementAnd = rule(
-  'Complementation (∧)',
+  'Negation law (∧)',
   'φ ∧ ¬φ → ⊥',
   (n) => {
     if (n.type !== 'And') return null
@@ -106,7 +106,7 @@ const complementAnd = rule(
 )
 
 const tautologyOr = rule(
-  'Tautology (∨)',
+  'Negation law (∨)',
   'φ ∨ ¬φ → ⊤',
   (n) => {
     if (n.type !== 'Or') return null
@@ -116,9 +116,9 @@ const tautologyOr = rule(
   }
 )
 
-// 7. Absorption
+// 7. Absorption laws
 const absorptionAnd = rule(
-  'Absorption (∧)',
+  'Absorption law (∧)',
   'φ ∧ (φ ∨ ψ) → φ',
   (n) => {
     if (n.type !== 'And') return null
@@ -130,7 +130,7 @@ const absorptionAnd = rule(
 )
 
 const absorptionOr = rule(
-  'Absorption (∨)',
+  'Absorption law (∨)',
   'φ ∨ (φ ∧ ψ) → φ',
   (n) => {
     if (n.type !== 'Or') return null
@@ -141,9 +141,9 @@ const absorptionOr = rule(
   }
 )
 
-// 8. Identity
+// 8. Identity laws
 const identityAnd = rule(
-  'Identity (∧)',
+  'Identity law (∧)',
   'φ ∧ ⊤ → φ',
   (n) => {
     if (n.type !== 'And') return null
@@ -154,7 +154,7 @@ const identityAnd = rule(
 )
 
 const identityOr = rule(
-  'Identity (∨)',
+  'Identity law (∨)',
   'φ ∨ ⊥ → φ',
   (n) => {
     if (n.type !== 'Or') return null
@@ -164,9 +164,9 @@ const identityOr = rule(
   }
 )
 
-// 9. Annihilation
+// 9. Universal bound laws
 const annihilAnd = rule(
-  'Annihilation (∧)',
+  'Universal bound law (∧)',
   'φ ∧ ⊥ → ⊥',
   (n) => {
     if (n.type !== 'And') return null
@@ -176,7 +176,7 @@ const annihilAnd = rule(
 )
 
 const annihilOr = rule(
-  'Annihilation (∨)',
+  'Universal bound law (∨)',
   'φ ∨ ⊤ → ⊤',
   (n) => {
     if (n.type !== 'Or') return null
@@ -187,7 +187,7 @@ const annihilOr = rule(
 
 // Optional: distributivity
 const distOrOverAnd = rule(
-  'Distribution (∨ over ∧)',
+  'Distributive law (∨ over ∧)',
   'φ ∨ (ψ ∧ χ) → (φ ∨ ψ) ∧ (φ ∨ χ)',
   (n) => {
     if (n.type !== 'Or') return null
@@ -198,7 +198,7 @@ const distOrOverAnd = rule(
 )
 
 const distAndOverOr = rule(
-  'Distribution (∧ over ∨)',
+  'Distributive law (∧ over ∨)',
   'φ ∧ (ψ ∨ χ) → (φ ∧ ψ) ∨ (φ ∧ χ)',
   (n) => {
     if (n.type !== 'And') return null

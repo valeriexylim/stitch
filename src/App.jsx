@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 import BlockBuilder from './components/builder/BlockBuilder.jsx'
 import CheckerScreen from './components/checker/CheckerScreen.jsx'
@@ -16,6 +16,12 @@ const SCREEN_LABELS = {
 
 export default function App() {
   const [screen, setScreen] = useState('builder')
+  const pendingFormula = useRef({ checker: '', simplifier: '', proof: '' })
+
+  const handleSendTo = (target, formulaStr) => {
+    pendingFormula.current[target] = formulaStr
+    setScreen(target)
+  }
 
   return (
     <div className="app">
@@ -35,10 +41,10 @@ export default function App() {
         </nav>
       </header>
       <main className="app-main">
-        {screen === 'builder'    && <BlockBuilder />}
-        {screen === 'checker'    && <CheckerScreen />}
-        {screen === 'simplifier' && <SimplifierScreen />}
-        {screen === 'proof'      && <ProofChecker />}
+        <div className={screen !== 'builder'    ? 'screen-hidden' : ''}><BlockBuilder onSendTo={handleSendTo} /></div>
+        <div className={screen !== 'checker'    ? 'screen-hidden' : ''}><CheckerScreen pendingFormula={pendingFormula} /></div>
+        <div className={screen !== 'simplifier' ? 'screen-hidden' : ''}><SimplifierScreen pendingFormula={pendingFormula} /></div>
+        <div className={screen !== 'proof'      ? 'screen-hidden' : ''}><ProofChecker pendingFormula={pendingFormula} /></div>
       </main>
     </div>
   )

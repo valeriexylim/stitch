@@ -1,9 +1,31 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import './ProofChecker.css'
 import { RULE_NAMES, validateProof } from '../../logic/proof.js'
+import RulesReference from './RulesReference.jsx'
 
 // Rules that need no citations
 const NO_CIT_RULES = new Set(['Premise', 'Assumption'])
+
+const RULE_DISPLAY = {
+  'Premise':  'Premise',
+  'Assumption': 'Assumption',
+  '∧I':   'Conjunctive Addition (∧I)',
+  '∧E₁':  'Conj. Simplification — left (∧E₁)',
+  '∧E₂':  'Conj. Simplification — right (∧E₂)',
+  '∨I₁':  'Disjunctive Addition — left (∨I₁)',
+  '∨I₂':  'Disjunctive Addition — right (∨I₂)',
+  '∨E':   'Division into Cases (∨E)',
+  '¬I':   'Proof by Contradiction (¬I)',
+  '¬E':   'Contradiction Introduction (¬E)',
+  '→I':   'Conditional Proof (→I)',
+  '→E':   'Modus Ponens (→E)',
+  'MT':   'Modus Tollens (MT)',
+  '↔I':   'Biconditional Intro (↔I)',
+  '↔E₁':  'Biconditional Elim — forward (↔E₁)',
+  '↔E₂':  'Biconditional Elim — backward (↔E₂)',
+  '⊥E':   'Ex Falso (⊥E)',
+  'Copy': 'Reiteration (Copy)',
+}
 
 let _nextId = 1
 const newLine = (depth = 0) => ({
@@ -14,10 +36,22 @@ const newLine = (depth = 0) => ({
   depth,
 })
 
-export default function ProofChecker() {
+export default function ProofChecker({ pendingFormula }) {
   const [lines, setLines]           = useState([newLine(0)])
   const [results, setResults]       = useState(null)
   const [validated, setValidated]   = useState(false)
+
+  useEffect(() => {
+    if (!pendingFormula) return
+    const f = pendingFormula.current.proof
+    if (f) {
+      const premiseLine = { ...newLine(0), formulaText: f, rule: 'Premise' }
+      setLines([premiseLine])
+      setResults(null)
+      setValidated(false)
+      pendingFormula.current.proof = ''
+    }
+  })
 
   // ── Derived state ─────────────────────────────────────────────────────────
 
@@ -155,7 +189,7 @@ export default function ProofChecker() {
                   onChange={(e) => updateLine(line.id, { rule: e.target.value, citText: '' })}
                 >
                   {RULE_NAMES.map((r) => (
-                    <option key={r} value={r}>{r}</option>
+                    <option key={r} value={r}>{RULE_DISPLAY[r] ?? r}</option>
                   ))}
                 </select>
 
@@ -192,12 +226,12 @@ export default function ProofChecker() {
         + Add line
       </button>
 
-      {/* Help */}
       <p className="proof-help">
-        Use <code>¬</code> <code>∧</code> <code>∨</code> <code>→</code> <code>↔</code> <code>⊤</code> <code>⊥</code> or their ASCII equivalents (<code>~</code> <code>&</code> <code>|</code> <code>-&gt;</code> <code>&lt;-&gt;</code> <code>T</code> <code>F</code>).
+        Use <code>¬</code> <code>∧</code> <code>∨</code> <code>→</code> <code>↔</code> <code>⊤</code> <code>⊥</code> or ASCII (<code>~</code> <code>&amp;</code> <code>|</code> <code>-&gt;</code> <code>&lt;-&gt;</code> <code>T</code> <code>F</code>).
         Indent lines to open a subproof (Assumption rule).
-        Press <strong>Check proof</strong> to validate all lines.
       </p>
+
+      <RulesReference />
     </div>
   )
 }

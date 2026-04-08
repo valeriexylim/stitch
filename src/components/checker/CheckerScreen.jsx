@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './CheckerScreen.css'
 import TruthTable from './TruthTable.jsx'
 import { parse, ParseError } from '../../logic/parser.js'
@@ -7,10 +7,21 @@ import { toString as fmtStr } from '../../logic/serialize.js'
 import { generateTruthTable, MAX_TRUTH_TABLE_VARS, WARN_TRUTH_TABLE_VARS } from '../../logic/truthTable.js'
 import { checkSat } from '../../logic/sat.js'
 
-export default function CheckerScreen() {
+export default function CheckerScreen({ pendingFormula }) {
   const [input, setInput]       = useState('')
   const [result, setResult]     = useState(null)   // null | result object
   const [error, setError]       = useState(null)   // parse error string
+
+  useEffect(() => {
+    if (!pendingFormula) return
+    const f = pendingFormula.current.checker
+    if (f) {
+      setInput(f)
+      setResult(null)
+      setError(null)
+      pendingFormula.current.checker = ''
+    }
+  })
 
   const handleCheck = () => {
     setResult(null)

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './SimplifierScreen.css'
 import { parse, ParseError } from '../../logic/parser.js'
 import { simplify, isNNF } from '../../logic/simplify.js'
@@ -9,7 +9,7 @@ const TARGETS = [
   { value: 'cnf',        label: 'CNF'        },
 ]
 
-export default function SimplifierScreen() {
+export default function SimplifierScreen({ pendingFormula }) {
   const [input,          setInput]          = useState('')
   const [error,          setError]          = useState(null)
   const [steps,          setSteps]          = useState(null)
@@ -17,6 +17,17 @@ export default function SimplifierScreen() {
   const [target,         setTarget]         = useState('simplified')
   const [distributivity, setDistributivity] = useState(false)
   const [showAll,        setShowAll]        = useState(false)
+
+  useEffect(() => {
+    if (!pendingFormula) return
+    const f = pendingFormula.current.simplifier
+    if (f) {
+      setInput(f)
+      setSteps(null)
+      setError(null)
+      pendingFormula.current.simplifier = ''
+    }
+  })
 
   const handleSimplify = () => {
     setError(null)
