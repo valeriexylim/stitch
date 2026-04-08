@@ -45,7 +45,7 @@ Scope and subproof access are validated automatically.
 **Prerequisites:** Node.js 18+
 
 ```bash
-git clone https://github.com/your-username/stitch.git
+git clone https://github.com/valeriexylim/stitch.git
 cd stitch
 npm install
 npm run dev
