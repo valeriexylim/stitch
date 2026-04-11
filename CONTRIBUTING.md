@@ -1,55 +1,41 @@
 # Contributing to Stitch
 
-## Development setup
+## Setup
 
 ```bash
 npm install
-npm run dev     # dev server at http://localhost:5173
-npm test        # run all unit tests (Vitest)
+npm run dev   # http://localhost:5173
+npm test      # run all unit tests (Vitest)
 ```
 
-## Project conventions
+## How the code is organised
 
-### Logic modules (`src/logic/`)
-
-Each file is a pure ES module with no React imports. All logic is independently unit-tested. When adding or modifying logic:
-
-- Keep functions pure where possible.
-- Every exported function should have tests in a sibling `*.test.js` file.
-- AST nodes are plain objects — use the constructors in `ast.js` (`Atom`, `Not`, `And`, etc.) rather than creating `{ type: '...' }` literals directly.
-
-### AST shape
-
-```js
-{ type: 'Atom',    name: 'P' }
-{ type: 'Not',     operand: <node> }
-{ type: 'And',     left: <node>, right: <node> }
-{ type: 'Or',      left: <node>, right: <node> }
-{ type: 'Implies', left: <node>, right: <node> }
-{ type: 'Iff',     left: <node>, right: <node> }
-{ type: 'True' }
-{ type: 'False' }
-{ type: 'Hole' }   // incomplete slot in the Block Builder only
+```
+src/logic/        # pure JS modules — no React, independently unit-tested
+src/components/   # React UI, one folder per screen
 ```
 
-### Adding a simplification rule
+All logic lives in `src/logic/`. Each file has a matching `*.test.js`. Keep them in sync.
 
-1. Add the rewrite function to `src/logic/simplify.js` following the pattern of existing rules (return `null` if the rule doesn't apply, otherwise return `{ result, before, after }`).
-2. Add it to the appropriate rule set in `buildRuleSet`.
-3. Add a unit test in `simplify.test.js`.
+## Key conventions
 
-### Adding a proof rule
+- **AST nodes** are plain objects. Use the constructors in `ast.js` (`Atom`, `Not`, `And`, …) — don't write `{ type: '...' }` literals by hand.
+- **Logic functions** should be pure where possible and return `null` when a rule/pattern doesn't apply.
+- **No external logic libraries** — parsing, evaluation, simplification, and proof checking are all implemented from scratch.
+
+## Adding a simplification rule
+
+1. Add a rewrite function to `src/logic/simplify.js` (return `null` if the rule doesn't apply, otherwise `{ result, before, after }`).
+2. Register it in `buildRuleSet`.
+3. Add tests in `simplify.test.js`.
+
+## Adding a proof rule
 
 1. Add the rule name to `RULE_NAMES` in `src/logic/proof.js`.
-2. Add the expected citation count to `CIT_COUNT`.
+2. Set its citation count in `CIT_COUNT`.
 3. Add a `case` in `validateRule`.
-4. Add tests in `proof.test.js` covering both the valid case and common error cases.
+4. Add tests in `proof.test.js` — cover both the valid case and common errors.
 
 ## Scope
 
-Stitch covers propositional logic only. The following are intentionally out of scope:
-
-- First-order / predicate logic
-- Quantifiers
-- Proof search / automatic solving
-- Collaborative editing
+Propositional logic only. First-order logic, quantifiers, proof search, and collaborative editing are intentionally out of scope.

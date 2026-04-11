@@ -2,7 +2,9 @@
 
 An interactive, visual web app for learning propositional logic. Build formulas with blocks, run truth tables, simplify step by step, and verify natural deduction proofs — all in the browser, no backend required.
 
-![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-5-646cff?logo=vite&logoColor=white) ![License](https://img.shields.io/badge/license-MIT-green)
+**Live demo: [scratch-for-logic.vercel.app](https://scratch-for-logic.vercel.app/)**
+
+![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-5-646cff?logo=vite&logoColor=white) ![Vercel](https://img.shields.io/badge/deployed-Vercel-black?logo=vercel) ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
@@ -31,12 +33,14 @@ Write Fitch-style natural deduction proofs line by line. Supported rules:
 | Conjunction | ∧I, ∧E₁, ∧E₂ |
 | Disjunction | ∨I₁, ∨I₂, ∨E |
 | Negation | ¬I, ¬E |
-| Implication | →I, →E |
+| Implication | →I, →E, MT |
 | Biconditional | ↔I, ↔E₁, ↔E₂ |
 | Falsum | ⊥E |
 | Reiteration | Copy |
 
-Scope and subproof access are validated automatically.
+Scope and subproof access are validated automatically. An in-app rules reference panel shows the schema and required citations for every rule.
+
+> New to natural deduction? See [PROOFCHECKER.md](./PROOFCHECKER.md) for a plain-English guide with worked examples.
 
 ---
 
